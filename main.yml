@@ -1,0 +1,46 @@
+- name: Setup local mac for work
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Install Homebrew (if not installed)
+      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      args:
+        creates: /usr/local/bin/brew
+
+    - name: Read application names from file
+      include_vars:
+        file: applications.yml
+        name: app
+
+    - name: Install applications via Homebrew
+      community.general.homebrew:
+        name: "{{ app.core_applications | join(',') }}"
+        state: latest
+        update_homebrew: true
+
+    - name: Install applications via Homebrew Cask
+      community.general.homebrew_cask:
+        name: "{{ app.cask_applications | join(',') }}"
+        state: latest
+        greedy: true
+        accept_external_apps: true
+      ignore_errors: yes
+
+    - name: "Install from Mac app store"
+      shell: mas install {{ item }}
+      with_items:
+        - 497799835 # xcode
+
+    - name: Install Oh My ZSH
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      args:
+        creates: "/Users/po/.oh-my-zsh"
+
+    - name: Set ZSH as the default shell
+      shell: chsh -s $(which zsh) po
+      become: true
+
+    - name: Configure iTerm2 to use Zsh
+      command: defaults write com.googlecode.iterm2 Shell /bin/zsh
+      become: yes
