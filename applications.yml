@@ -10,10 +10,10 @@ cask_applications:
   - microsoft-remote-desktop
   - postman
   - teamviewer
-  - node
   - google-chrome
 
 core_applications:
   - mas
   - zsh
   - kubernetes-cli
+  - node
