@@ -17,3 +17,4 @@ core_applications:
   - zsh
   - kubernetes-cli
   - node
+  - tomcat@8
