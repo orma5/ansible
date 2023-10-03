@@ -11,6 +11,8 @@ cask_applications:
   - postman
   - teamviewer
   - google-chrome
+  - cursor
+  - spotify
 
 core_applications:
   - mas
