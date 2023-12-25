@@ -1,7 +1,7 @@
 # List of applications to install with homebrew tap/cask
 cask_applications:
   - iterm2
-  - visual-studio-code
+  - cursor
   - slack
   - openvpn-connect
   - intellij-idea
